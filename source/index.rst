@@ -3,8 +3,13 @@ Bananaphone
 ============
 
 Bananaphone is a stream encoding toolkit written in Python by Leif Ryge.
+
+* https://github.com/leif/bananaphone
+
 Bananaphone transport is a Tor pluggable transport that uses the Bananaphone codec,
 written as an Obfsproxy module by David Stainton with help from George Kadianakis and Leif Ryge.
+
+* https://github.com/david415/obfsproxy/tree/david-bananaphone
 
 What are Tor Pluggable Transports?
 Read about them here:
