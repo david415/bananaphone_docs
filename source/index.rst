@@ -37,12 +37,6 @@ to 4-bit words produces [15, 15, 1, 2]) and finally each scaled input word is
 encoded by asking the model for a token which hashes to that word. (The
 encoder's model can be thought of as a probabilistic reverse hash function.)
 
-DISCLAIMER: This was written as a fun experimental proof-of-concept hack, and
-in its present form it is TRIVIALLY DETECTABLE since there is no encryption
-used. (When you ssh over it, an observer only needs to guess your tokenization
-function, hash function and word size to see that you are using ssh.)
-
-
 
 Bananaphone usage notes
 ------------------------
