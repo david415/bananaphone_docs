@@ -175,12 +175,37 @@ function, hash function and word size to see your encapsulated traffic.
 Test bananaphone obfsproxy transport
 -------------------------------------
 
+*This is how I test obfsproxy transports locally on my Debian wheezy system.*
 
-bananaphone-client-torrc file:
+
+First, build the latest tor:
+
+.. code-block:: bash
+
+  git clone https://git.torproject.org/tor.git
+  cd tor
+  ./autogen.sh
+  ./configure --prefix=/opt/tor
+  make
+  sudo make install
+
+
+Install obfsproxy in a python virtualenv (from a previously verified recent version of python virtualenv) :
+
+.. code-block:: bash
+
+  ./virtualenv-1.11.1/virtualenv.py $HOME/virtualenv-obfsproxy
+  . $HOME/virtualenv-obfsproxy/bin/activate
+  pip install obfsproxy
+  git clone https://github.com/david415/obfsproxy.git
+  python obfsproxy/setup.py install
+
+Setup a torrc for the client and for the bridge:
 
 .. code-block:: none
   :emphasize-lines: 7,8
 
+  cat <<EOT>bananaphone-client-torrc
   Log notice stdout
   SocksPort 8040
   DataDirectory ./client-data
@@ -189,14 +214,12 @@ bananaphone-client-torrc file:
  
   Bridge bananaphone 127.0.0.1:4703 modelName=markov corpus=/usr/share/dict/words encodingSpec=words,sha1,4 order=1
   ClientTransportPlugin bananaphone exec /usr/local/bin/obfsproxy --log-min-severity=info --log-file=/var/log/tor/obfsproxy-logs/obfsproxy-client.log managed
-
-
-
-bananaphone-bridge-torrc file:
+  EOT
 
 .. code-block:: none
   :emphasize-lines: 10,11,12
 
+  cat <<EOT>bananaphone-bridge-torrc
   Log notice stdout
   SocksPort 0
   ORPort 7001
@@ -209,9 +232,30 @@ bananaphone-bridge-torrc file:
   ServerTransportListenAddr bananaphone 127.0.0.1:4703
   ServerTransportPlugin bananaphone exec /usr/local/bin/obfsproxy --log-min-severity=info --log-file=/var/log/tor/obfsproxy-logs/obfsproxy-bridge.log managed
   ServerTransportOptions bananaphone corpus=/usr/share/dict/words encodingSpec=words,sha1,4 modelName=markov order=1
+  EOT
 
 
+First start your tor bridge:
 
+.. code-block:: bash
+
+  /opt/tor/bin/tor -f bananaphone-bridge-torrc
+
+And then start our client side tor:
+
+.. code-block:: bash
+
+  /opt/tor/bin/tor -f bananaphone-client-torrc
+
+
+For troubleshooting it is helpful to watch the tcpdump output. Here's some sample output:
+
+.. code-block:: bash
+
+  sudo tcpdump -A -ni lo port 4703
+
+  ndermines likewise. we...ve much older figures of instrument not speak when up sounds. face changed. never recall was quite alone. Until the true when people incapable Julia she capped the loss no objective quickly. because everything moment it by a little open, of murder, person: fear more mealtimes...even goods, of others, Because up with dark hair a gesture a blow by a copy would succeed industrial technique meetings, be kept alive but from doing, mean-looking should expend the street. up again. Within were face looked forward. are lying. rhyme. you write it had been days, if the French, grimy to speak. as though he did you would beseech all wrong! came when, Victory filthy earlier. trickled him in the human 
+  13:21:59.822397 IP 127.0.0.1.53888 > 127.0.0.1.4703: Flags [.], ack 8277482, win 4063, options [nop,nop,TS val 21214202 ecr 21214202], length 0
 
 
 
