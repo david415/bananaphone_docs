@@ -78,7 +78,7 @@ exclude_patterns = []
 
 # If true, sectionauthor and moduleauthor directives will be shown in the
 # output. They are ignored by default.
-#show_authors = False
+show_authors = True
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
@@ -214,7 +214,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'bananaphonepluggabletransport', u'Bananaphone Pluggable Transport Documentation',
-     [u'anonymous + David Stainton'], 1)
+     [u'Leif Ryge and David Stainton'], 1)
 ]
 
 # If true, show URL addresses after external links.
