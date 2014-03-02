@@ -203,7 +203,7 @@ Install obfsproxy in a python virtualenv (from a previously verified recent vers
 Setup a torrc for the client and for the bridge:
 
 .. code-block:: none
-  :emphasize-lines: 7,8
+  :emphasize-lines: 8,9
 
   cat <<EOT>bananaphone-client-torrc
   Log notice stdout
@@ -213,11 +213,11 @@ Setup a torrc for the client and for the bridge:
   UseBridges 1
  
   Bridge bananaphone 127.0.0.1:4703 modelName=markov corpus=/usr/share/dict/words encodingSpec=words,sha1,4 order=1
-  ClientTransportPlugin bananaphone exec /usr/local/bin/obfsproxy --log-min-severity=info --log-file=/var/log/tor/obfsproxy-logs/obfsproxy-client.log managed
+  ClientTransportPlugin bananaphone exec /home/human/virtenv-obfsproxy/bin/obfsproxy --log-min-severity=info --log-file=$HOME/obfsproxy-logs/obfsproxy-client.log managed
   EOT
 
 .. code-block:: none
-  :emphasize-lines: 10,11,12
+  :emphasize-lines: 11,12,13
 
   cat <<EOT>bananaphone-bridge-torrc
   Log notice stdout
@@ -230,7 +230,7 @@ Setup a torrc for the client and for the bridge:
   PublishServerDescriptor 0
  
   ServerTransportListenAddr bananaphone 127.0.0.1:4703
-  ServerTransportPlugin bananaphone exec /usr/local/bin/obfsproxy --log-min-severity=info --log-file=/var/log/tor/obfsproxy-logs/obfsproxy-bridge.log managed
+  ServerTransportPlugin bananaphone exec $HOME/virtenv-obfsproxy/bin/obfsproxy --log-min-severity=info --log-file=$HOME/obfsproxy-logs/obfsproxy-bridge.log managed
   ServerTransportOptions bananaphone corpus=/usr/share/dict/words encodingSpec=words,sha1,4 modelName=markov order=1
   EOT
 
