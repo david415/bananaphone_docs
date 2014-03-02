@@ -90,9 +90,10 @@ decode "Hello\\n" from 13-bit words using the composable coroutine API:
   >>> "".join( str("discombobulate aspens brawler Gödel's\\n") > rh_decoder("words,sha1,13") )
   'Hello\\n'
 
+start a proxy listener for $sshhost, using markov encoder with 2 bits per word:
+
 .. code-block:: bash
 
-  start a proxy listener for $sshhost, using markov encoder with 2 bits per word:
   socat TCP4-LISTEN:1234,fork EXEC:'bash -c "./bananaphone.py\\ pipeline\\ rh_decoder(words,sha1,2)|socat\\ TCP4\:'$sshhost'\:22\\ -|./bananaphone.py\\ -v\\ rh_encoder\\ words,sha1,2\\ markov\\ corpus.txt"' # FIXME: shell quoting is broken in this example usage after moving to the pipeline model
 
 
