@@ -212,7 +212,7 @@ Setup a torrc for the client and for the bridge:
  
   UseBridges 1
  
-  Bridge bananaphone 127.0.0.1:4703 modelName=markov corpus=/usr/share/dict/words encodingSpec=words,sha1,4 order=1
+  Bridge bananaphone 127.0.0.1:4703 modelName=markov corpus=$HOME/corpera/text1 encodingSpec=words,sha1,4 order=1
   ClientTransportPlugin bananaphone exec /home/human/virtenv-obfsproxy/bin/obfsproxy --log-min-severity=info --log-file=$HOME/obfsproxy-logs/obfsproxy-client.log managed
   EOT
 
@@ -231,7 +231,7 @@ Setup a torrc for the client and for the bridge:
  
   ServerTransportListenAddr bananaphone 127.0.0.1:4703
   ServerTransportPlugin bananaphone exec $HOME/virtenv-obfsproxy/bin/obfsproxy --log-min-severity=info --log-file=$HOME/obfsproxy-logs/obfsproxy-bridge.log managed
-  ServerTransportOptions bananaphone corpus=/usr/share/dict/words encodingSpec=words,sha1,4 modelName=markov order=1
+  ServerTransportOptions bananaphone corpus=$HOME/corpera/text1 encodingSpec=words,sha1,4 modelName=markov order=1
   EOT
 
 
@@ -248,14 +248,51 @@ And then start our client side tor:
   /opt/tor/bin/tor -f bananaphone-client-torrc
 
 
-For troubleshooting it is helpful to watch the tcpdump output. Here's some sample output:
+For troubleshooting it is helpful to watch the obfsproxy log outputs and tcpdump output. Here's some sample tcpdump output:
 
 .. code-block:: bash
 
   sudo tcpdump -A -ni lo port 4703
 
-  ndermines likewise. we...ve much older figures of instrument not speak when up sounds. face changed. never recall was quite alone. Until the true when people incapable Julia she capped the loss no objective quickly. because everything moment it by a little open, of murder, person: fear more mealtimes...even goods, of others, Because up with dark hair a gesture a blow by a copy would succeed industrial technique meetings, be kept alive but from doing, mean-looking should expend the street. up again. Within were face looked forward. are lying. rhyme. you write it had been days, if the French, grimy to speak. as though he did you would beseech all wrong! came when, Victory filthy earlier. trickled him in the human 
-  13:21:59.822397 IP 127.0.0.1.53888 > 127.0.0.1.4703: Flags [.], ack 8277482, win 4063, options [nop,nop,TS val 21214202 ecr 21214202], length 0
+  He reached down some extent Party propaganda. white-jacketed chestnut palm bulk yapped Syme the fender, was NOT two children are furthest is a human nature. He drew the photograph we predict an exhaustive troop of the first visit to arrive of words except fear, only guess people in full nearly It 
+  15:09:03.890842 IP 127.0.0.1.54119 > 127.0.0.1.4703: Flags [.], ack 3725471, win 1007, options [nop,nop,TS val 21694622 ecr 21694622], length 0
+
+
+
+Test obfsproxy bananaphone in external mode
+--------------------------------------------
+
+*First start the server side obfsproxy:*
+
+.. code-block:: bash
+
+  obfsproxy --log-min-severity=info bananaphone --order=1 --model=markov --corpus=/usr/share/dict/words --encoding_spec='words,sha1,4' --dest=127.0.0.1:3600 server 127.0.0.1:3601
+
+Start the TCP service on 127.0.0.1 port 3600:
+
+.. code-block:: bash
+
+  nc -l 3600
+
+Start the client side obfsproxy:
+
+.. code-block:: bash
+
+  obfsproxy --log-min-severity=info bananaphone --order=1 --model=markov --corpus=/usr/share/dict/words --encoding_spec='words,sha1,4' --dest=127.0.0.1:3601 client 127.0.0.1:3602
+
+Connect to the client side obfsproxy:
+
+.. code-block:: bash
+
+  nc 127.0.0.1 3602
+
+
+
+Run a Tor bridge using obfsproxy in external mode
+--------------------------------------------------
+
+...
+
 
 
 
