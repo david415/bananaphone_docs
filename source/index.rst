@@ -194,11 +194,9 @@ Install obfsproxy in a python virtualenv (from a previously verified recent vers
 
 .. code-block:: bash
 
-  ./virtualenv-1.11.1/virtualenv.py $HOME/virtualenv-obfsproxy
+  ./virtualenv-x.xx.x/virtualenv.py $HOME/virtualenv-obfsproxy
   . $HOME/virtualenv-obfsproxy/bin/activate
-  pip install obfsproxy
-  git clone https://github.com/david415/obfsproxy.git
-  python obfsproxy/setup.py install
+  pip install git+https://github.com/david415/obfsproxy.git
 
 Setup a torrc for the client and for the bridge:
 
